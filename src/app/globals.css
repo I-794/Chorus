@@ -1,0 +1,94 @@
+@import "tailwindcss";
+@source "../../node_modules/streamdown/dist/*.js";
+@source "../../node_modules/@streamdown/code/dist/*.js";
+
+/* Calm, warm neutrals with one teal accent. Streamdown reads the shadcn-style
+   names (--background, --muted, --border, ...), so we define those too. */
+:root {
+  --background: oklch(0.985 0.003 85);
+  --foreground: oklch(0.22 0.006 85);
+  --sidebar: oklch(0.965 0.004 85);
+  --card: oklch(1 0 0);
+  --card-foreground: var(--foreground);
+  --muted: oklch(0.945 0.005 85);
+  --muted-foreground: oklch(0.52 0.008 85);
+  --border: oklch(0.91 0.006 85);
+  --input: oklch(0.91 0.006 85);
+  --primary: oklch(0.22 0.006 85);
+  --primary-foreground: oklch(0.985 0.003 85);
+  --accent: oklch(0.55 0.09 185);
+  --accent-soft: oklch(0.94 0.03 185);
+  --danger: oklch(0.55 0.17 27);
+  --danger-soft: oklch(0.96 0.025 27);
+  --radius: 0.625rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: oklch(0.175 0.004 85);
+    --foreground: oklch(0.93 0.005 85);
+    --sidebar: oklch(0.205 0.004 85);
+    --card: oklch(0.215 0.004 85);
+    --muted: oklch(0.25 0.005 85);
+    --muted-foreground: oklch(0.68 0.008 85);
+    --border: oklch(0.29 0.005 85);
+    --input: oklch(0.31 0.005 85);
+    --primary: oklch(0.93 0.005 85);
+    --primary-foreground: oklch(0.2 0.004 85);
+    --accent: oklch(0.72 0.1 185);
+    --accent-soft: oklch(0.3 0.04 185);
+    --danger: oklch(0.7 0.15 27);
+    --danger-soft: oklch(0.28 0.05 27);
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-sidebar: var(--sidebar);
+  --color-card: var(--card);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+::selection {
+  background: var(--accent-soft);
+}
+
+/* Focus rings only for keyboard users. In the base layer so utilities can override it. */
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
