@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { ArrowUp, Square } from "lucide-react";
+import { ArrowUp, Stop } from "@phosphor-icons/react";
 import type { ModelId } from "@/config/models";
 import type { PlanId } from "@/config/plans";
 import { MAX_MESSAGE_CHARS } from "@/lib/validation";
@@ -46,7 +46,7 @@ export function Composer({
         e.preventDefault();
         if (canSend) onSubmit();
       }}
-      className="rounded-2xl border border-border bg-card shadow-sm transition-colors focus-within:border-foreground/25"
+      className="rounded-xl border border-border bg-card shadow-sm transition-colors focus-within:border-foreground/30"
     >
       <label htmlFor="composer" className="sr-only">
         Message
@@ -64,7 +64,7 @@ export function Composer({
             if (canSend) onSubmit();
           }
         }}
-        className="block max-h-60 w-full resize-none bg-transparent px-4 pt-3.5 pb-1 text-[15px] leading-relaxed placeholder:text-muted-foreground/70 focus:outline-none focus-visible:outline-none"
+        className="block max-h-60 w-full resize-none bg-transparent px-4 pt-3.5 pb-1 text-[15px] leading-relaxed placeholder:text-muted-foreground focus:outline-none focus-visible:outline-none"
       />
       <div className="flex items-center justify-between gap-2 px-2 pb-2">
         <ModelPicker value={modelId} onChange={onModelChange} plan={plan} />
@@ -81,18 +81,18 @@ export function Composer({
               type="button"
               onClick={onStop}
               aria-label="Stop generating"
-              className="flex size-8 items-center justify-center rounded-full bg-primary text-primary-foreground transition-opacity hover:opacity-85"
+              className="flex size-8 items-center justify-center rounded-full bg-primary text-primary-foreground transition-[opacity,transform] hover:opacity-85 active:scale-[0.94]"
             >
-              <Square className="size-3 fill-current" aria-hidden />
+              <Stop className="size-3.5" weight="fill" aria-hidden />
             </button>
           ) : (
             <button
               type="submit"
               disabled={!canSend}
               aria-label="Send message"
-              className="flex size-8 items-center justify-center rounded-full bg-primary text-primary-foreground transition-opacity hover:opacity-85 disabled:opacity-25"
+              className="flex size-8 items-center justify-center rounded-full bg-primary text-primary-foreground transition-[opacity,transform] hover:opacity-85 active:scale-[0.94] disabled:opacity-25 disabled:active:scale-100"
             >
-              <ArrowUp className="size-4" aria-hidden />
+              <ArrowUp className="size-4" weight="bold" aria-hidden />
             </button>
           )}
         </div>

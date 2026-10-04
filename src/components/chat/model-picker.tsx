@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Check, ChevronDown, Lock } from "lucide-react";
+import { CaretDown, Check, Lock } from "@phosphor-icons/react";
 import { canUseModel, MODELS, type ModelId } from "@/config/models";
 import type { PlanId } from "@/config/plans";
 
@@ -41,10 +41,10 @@ export function ModelPicker({
         aria-haspopup="listbox"
         aria-expanded={open}
         onClick={() => setOpen((o) => !o)}
-        className="flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-sm font-medium text-foreground/80 transition-colors hover:bg-muted hover:text-foreground"
+        className="flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-sm font-medium text-foreground/80 transition-[background-color,color,transform] hover:bg-muted hover:text-foreground active:scale-[0.98]"
       >
         {current.name}
-        <ChevronDown
+        <CaretDown
           className={`size-3.5 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`}
           aria-hidden
         />
@@ -77,8 +77,8 @@ export function ModelPicker({
                   <span className="flex items-center gap-2 text-sm font-medium">
                     {m.name}
                     {!allowed && (
-                      <span className="inline-flex items-center gap-1 rounded-full bg-accent-soft px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-accent">
-                        <Lock className="size-2.5" aria-hidden />
+                      <span className="inline-flex items-center gap-1 rounded-full bg-accent-soft px-1.5 py-px text-[10px] font-semibold text-accent">
+                        <Lock className="size-2.5" weight="bold" aria-hidden />
                         Pro
                       </span>
                     )}
@@ -87,7 +87,7 @@ export function ModelPicker({
                     {m.provider} · {price(m.inputPricePerM)} in / {price(m.outputPricePerM)} out per 1M
                   </span>
                 </span>
-                {selected && <Check className="mt-0.5 size-4 text-accent" aria-hidden />}
+                {selected && <Check className="mt-0.5 size-4 text-accent" weight="bold" aria-hidden />}
               </button>
             );
           })}

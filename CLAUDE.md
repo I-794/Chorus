@@ -35,6 +35,9 @@ A small multi-model AI chat app (think a mini T3 Chat). Phase 1 = MVP only.
 - Keep it simple: Phase 1 has no agents, tools, file uploads or voice.
 
 ## UI
-- Design tokens are CSS variables in `src/app/globals.css` (light + dark via `prefers-color-scheme`). Use the Tailwind color names (`bg-muted`, `text-muted-foreground`, `bg-accent-soft`, ...) and never hard-code colors.
-- Calm, focused, readable: one accent color, subtle motion, respect `prefers-reduced-motion`.
-- For UI work, use the `design-taste-frontend` skill if it's installed in `.claude/skills/` (dials: DESIGN_VARIANCE 3, MOTION_INTENSITY 3, VISUAL_DENSITY 5).
+- For UI work, use the `design-taste-frontend` skill in `.claude/skills/`. Dials: chat app 3/3/5 (VARIANCE/MOTION/DENSITY); sign-in front page 5/3/4.
+- Design tokens are CSS variables in `src/app/globals.css` (light + dark via `prefers-color-scheme`). Use the Tailwind color names (`bg-muted`, `text-muted-foreground`, `bg-accent-soft`, ...) and never hard-code colors. One accent (teal).
+- Shape rule: surfaces (composer, popovers, banners, message bubbles, code blocks) are `rounded-xl`; controls (buttons, inputs, list rows) are `rounded-lg`; the send/stop button is a circle.
+- Icons: Phosphor only (`@phosphor-icons/react`, or `@phosphor-icons/react/ssr` in server components), regular weight unless emphasis needs bold.
+- Buttons get a small `active:scale-[0.98]` press. Motion stays subtle and functional; `prefers-reduced-motion` is respected globally.
+- Placeholder, label and button text must pass WCAG AA in both themes. No em dashes in UI copy.

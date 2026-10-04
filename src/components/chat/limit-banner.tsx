@@ -1,6 +1,6 @@
 "use client";
 
-import { CircleAlert, Clock, X } from "lucide-react";
+import { Clock, WarningCircle, X } from "@phosphor-icons/react";
 import type { ApiErrorBody } from "@/lib/api-errors";
 
 export type ChatError = { code: string | null; message: string };
@@ -27,13 +27,15 @@ export function parseChatError(error: Error): ChatError {
 
 export function LimitBanner({ error, onDismiss }: { error: ChatError; onDismiss: () => void }) {
   const isLimit = error.code === "RATE_LIMITED" || error.code === "DAILY_CAP_REACHED";
-  const Icon = isLimit ? Clock : CircleAlert;
+  const Icon = isLimit ? Clock : WarningCircle;
 
   return (
     <div
       role="alert"
-      className={`mb-2 flex items-start gap-2.5 rounded-xl px-3.5 py-2.5 text-sm ${
-        isLimit ? "bg-accent-soft text-foreground" : "bg-danger-soft text-danger"
+      className={`mb-2 flex items-start gap-2.5 rounded-xl border px-3.5 py-2.5 text-sm ${
+        isLimit
+          ? "border-accent/20 bg-accent-soft text-foreground"
+          : "border-danger/20 bg-danger-soft text-danger"
       }`}
     >
       <Icon className={`mt-0.5 size-4 shrink-0 ${isLimit ? "text-accent" : ""}`} aria-hidden />
@@ -42,7 +44,7 @@ export function LimitBanner({ error, onDismiss }: { error: ChatError; onDismiss:
         type="button"
         onClick={onDismiss}
         aria-label="Dismiss"
-        className="-m-1 rounded-md p-1 opacity-60 transition-opacity hover:opacity-100"
+        className="-m-1 rounded-lg p-1 opacity-60 transition-opacity hover:opacity-100"
       >
         <X className="size-4" aria-hidden />
       </button>

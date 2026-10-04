@@ -3,7 +3,7 @@
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { Menu } from "lucide-react";
+import { ArrowUpRight, List } from "@phosphor-icons/react";
 import { useAppState } from "@/components/app-state";
 import { useOpenMobileNav } from "@/components/sidebar/app-shell";
 import { canUseModel, DEFAULT_MODEL_ID, getModel, type ModelId } from "@/config/models";
@@ -131,9 +131,9 @@ export function Chat({
           type="button"
           onClick={openNav}
           aria-label="Open menu"
-          className="flex size-9 items-center justify-center rounded-lg text-muted-foreground hover:bg-muted md:hidden"
+          className="flex size-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground md:hidden"
         >
-          <Menu className="size-5" aria-hidden />
+          <List className="size-5" aria-hidden />
         </button>
         <h1 className="truncate text-sm font-medium text-foreground/80">{heading}</h1>
       </header>
@@ -147,7 +147,12 @@ export function Chat({
         className="min-h-0 flex-1 overflow-y-auto"
       >
         {empty ? (
-          <EmptyState />
+          <EmptyState
+            onPick={(text) => {
+              setInput(text);
+              requestAnimationFrame(() => document.getElementById("composer")?.focus());
+            }}
+          />
         ) : (
           <div className="mx-auto w-full max-w-3xl space-y-8 px-4 pt-4 pb-10 md:px-6">
             {messages.map((m, i) => (
@@ -182,7 +187,7 @@ export function Chat({
             onModelChange={changeModel}
             plan={plan}
           />
-          <p className="mt-2 text-center text-[11px] text-muted-foreground">
+          <p className="mt-2 text-center text-xs text-muted-foreground">
             AI can be wrong. Costs shown are estimates.
           </p>
         </div>
@@ -195,15 +200,40 @@ function textOf(message: ChatMessage) {
   return message.parts.map((p) => (p.type === "text" ? p.text : "")).join("");
 }
 
-function EmptyState() {
+const STARTERS = [
+  "Explain recursion with a simple example",
+  "Help me outline an essay on renewable energy",
+  "Quiz me on the causes of World War I",
+  "Why does my Python loop never stop?",
+];
+
+function EmptyState({ onPick }: { onPick: (text: string) => void }) {
   return (
-    <div className="flex h-full items-center justify-center px-6">
-      <div className="max-w-sm text-center">
-        <p className="text-xl font-semibold tracking-tight">What are you working on?</p>
-        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-          Pick a model below and start typing. Each reply shows what it cost.
-        </p>
-      </div>
+    <div className="mx-auto flex h-full w-full max-w-3xl flex-col justify-end px-4 pb-8 md:px-6 md:pb-12">
+      <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
+        What are you working on?
+      </h2>
+      <p className="mt-2 max-w-[52ch] text-[15px] leading-relaxed text-muted-foreground">
+        Pick a model below and start typing, or try one of these. Each reply shows what it
+        cost.
+      </p>
+      <ul className="mt-6 grid gap-2 sm:grid-cols-2">
+        {STARTERS.map((text) => (
+          <li key={text} className="flex">
+            <button
+              type="button"
+              onClick={() => onPick(text)}
+              className="group flex h-full w-full items-center justify-between gap-3 rounded-lg border border-border bg-card px-3.5 py-3 text-left text-sm transition-[background-color,border-color,transform] hover:border-foreground/20 hover:bg-muted active:scale-[0.99]"
+            >
+              <span>{text}</span>
+              <ArrowUpRight
+                className="size-4 shrink-0 text-muted-foreground transition-colors group-hover:text-foreground"
+                aria-hidden
+              />
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

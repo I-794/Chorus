@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { Pencil, Trash2 } from "lucide-react";
+import { PencilSimple, Trash } from "@phosphor-icons/react";
 import { useAppState, type ConversationSummary } from "@/components/app-state";
 import { MAX_TITLE_CHARS } from "@/lib/validation";
 
@@ -78,14 +78,14 @@ export function ConversationItem({
 
   if (mode === "confirm-delete") {
     return (
-      <li className="rounded-lg bg-danger-soft px-2.5 py-2">
+      <li className="rounded-lg border border-danger/20 bg-danger-soft px-2.5 py-2">
         <p className="truncate text-sm">Delete “{conversation.title}”?</p>
         <div className="mt-2 flex gap-2">
           <button
             type="button"
             disabled={busy}
             onClick={() => void confirmDelete()}
-            className="h-7 rounded-md bg-danger px-2.5 text-xs font-medium text-white disabled:opacity-60"
+            className="h-7 rounded-lg bg-danger px-2.5 text-xs font-medium text-background transition-transform active:scale-[0.97] disabled:opacity-60"
           >
             Delete
           </button>
@@ -94,7 +94,7 @@ export function ConversationItem({
             disabled={busy}
             autoFocus
             onClick={() => setMode("view")}
-            className="h-7 rounded-md px-2.5 text-xs font-medium hover:bg-card"
+            className="h-7 rounded-lg px-2.5 text-xs font-medium transition-colors hover:bg-card"
           >
             Cancel
           </button>
@@ -109,8 +109,10 @@ export function ConversationItem({
         href={`/chat/${conversation.id}`}
         onClick={onNavigate}
         aria-current={active ? "page" : undefined}
-        className={`flex h-9 items-center rounded-lg pl-2.5 pr-16 text-sm transition-colors ${
-          active ? "bg-card font-medium shadow-xs" : "text-foreground/85 hover:bg-muted"
+        className={`flex h-9 items-center rounded-lg px-2.5 text-sm transition-colors ${
+          active
+            ? "bg-card pr-16 font-medium shadow-xs"
+            : "text-foreground/85 hover:bg-muted group-hover:pr-16 group-focus-within:pr-16"
         }`}
       >
         <span className="truncate">{conversation.title}</span>
@@ -121,10 +123,10 @@ export function ConversationItem({
         }`}
       >
         <IconButton label="Rename" onClick={() => setMode("rename")}>
-          <Pencil className="size-3.5" aria-hidden />
+          <PencilSimple className="size-3.5" aria-hidden />
         </IconButton>
         <IconButton label="Delete" onClick={() => setMode("confirm-delete")}>
-          <Trash2 className="size-3.5" aria-hidden />
+          <Trash className="size-3.5" aria-hidden />
         </IconButton>
       </div>
     </li>
@@ -146,7 +148,7 @@ function IconButton({
       aria-label={label}
       title={label}
       onClick={onClick}
-      className="flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+      className="flex size-7 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
     >
       {children}
     </button>
